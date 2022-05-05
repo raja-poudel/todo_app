@@ -7,6 +7,7 @@ import { CustomModal } from "./../../components/modal";
 import { TodoList } from "../../components/todoList";
 import { useSelector } from "../../store";
 import { ScrollView } from "react-native-gesture-handler";
+import { format } from "date-fns";
 
 export const Home = () => {
   const [showModal, setShowModal] = useState(false);
@@ -20,10 +21,10 @@ export const Home = () => {
   return (
     <View style={styles.container}>
       <MText fontSize={20} color={"red"}>
-        Todos List
+        Todays Todo {format(new Date(), "yyyy-MM-dd")}
       </MText>
       <ScrollView>
-        {todos.length > 0 ? (
+        {todos !== null && todos !== undefined && todos.length > 0 ? (
           <TodoList todos={todos} />
         ) : (
           <Text>You don't have any todos create one.</Text>

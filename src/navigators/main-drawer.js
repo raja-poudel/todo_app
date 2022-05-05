@@ -2,10 +2,21 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Home } from "../screens/home";
 import { Settings } from "../screens/settings";
 import { CustomSidebarMenu } from "./custom-drawer-menu";
-
+import { HomeHeader } from "../components/homeHeader";
+import { getHeaderTitle } from "@react-navigation/elements";
 const Drawer = createDrawerNavigator();
+import { useEffect } from "react";
+import { setTodos } from "../slices/todo";
+import { useDispatch } from "../store";
 
 export const MainDrawer = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    initTodos();
+  }, []);
+  async function initTodos() {
+    dispatch(setTodos());
+  }
   return (
     <Drawer.Navigator
       initialRouteName="Home"
@@ -17,8 +28,23 @@ export const MainDrawer = () => {
     >
       <Drawer.Screen
         name="Home"
-        options={{ drawerLabel: "Home Page" }}
         component={Home}
+        options={{
+          headerStyle: {
+            height: 80,
+          },
+          headerShow: false,
+          header: ({ navigation, route, options }) => {
+            const title = getHeaderTitle(options, route.name);
+            return (
+              <HomeHeader
+                title={"Raja Poudel"}
+                navigation={navigation}
+                style={options.headerStyle}
+              />
+            );
+          },
+        }}
       />
       <Drawer.Screen
         name="Settings"

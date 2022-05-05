@@ -19,5 +19,6 @@ const styles = StyleSheet.create({
   },
   input: {
     width: 150,
+    fontSize: 20
   },
 });

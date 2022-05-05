@@ -1,19 +1,19 @@
 import { useState } from "react";
-import { View, StyleSheet, Modal, Button } from "react-native";
+import { View, StyleSheet, Modal, ToastAndroid } from "react-native";
 import { MText } from "../text";
 import { MTextInput } from "../textInput";
+import { MButton } from "../button";
 import { useSelector, useDispatch } from "../../store/index";
 import { addTodos } from "../../slices/todo";
 
 export const CustomModal = (props) => {
   const [description, setDescription] = useState("");
-  const { todos } = useSelector((store) => store.todo);
   const dispatch = useDispatch();
-
+  const { todos } = useSelector((store) => store.todo);
   const handleChange = (text) => {
     setDescription(text);
   };
-  const handleAddTodo = () => {
+  const handleAddTodo = async () => {
     const todo = {
       id: todos.length + 1,
       description,
@@ -23,6 +23,7 @@ export const CustomModal = (props) => {
     };
     dispatch(addTodos(todo));
     setDescription("");
+    ToastAndroid.show("Successfully added.", ToastAndroid.SHORT);
     props.handleClose();
   };
   return (
@@ -38,12 +39,12 @@ export const CustomModal = (props) => {
             />
           </View>
           <View style={styles.btnContainer}>
-            <Button
+            <MButton
               title="Close"
               style={styles.btn}
               onPress={props.handleClose}
             />
-            <Button title="Add" style={styles.btn} onPress={handleAddTodo} />
+            <MButton title="Add" style={styles.btn} onPress={handleAddTodo} />
           </View>
         </View>
       </Modal>
